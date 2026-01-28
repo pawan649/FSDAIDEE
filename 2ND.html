@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Validation Example</title>
+   <link rel="stylesheet" href="2nd.css"> 
+</head>
+<body>
+  <form id="signupForm">
+    <label>Email:</label><br>
+    <input type="email" id="email" required>
+    <span id="emailError" class="error"></span><br><br>
+
+    <label>Password:</label><br>
+    <input type="password" id="password" required>
+    <span id="passwordError" class="error"></span><br><br>
+
+    <label>Confirm Password:</label><br>
+    <input type="password" id="confirmPassword" required>
+    <span id="confirmError" class="error"></span><br><br>
+
+    <button type="submit">Sign Up</button>
+  </form>
+
+  <script>
+    const form = document.getElementById("signupForm");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirmPassword");
+
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+    const confirmError = document.getElementById("confirmError");
+
+    // Email validation
+    email.addEventListener("input", () => {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!regex.test(email.value)) {
+        emailError.textContent = "Invalid email format";
+      } else {
+        emailError.textContent = "";
+      }
+    });
+
+    // Password strength validation
+    password.addEventListener("input", () => {
+      const value = password.value;
+      const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+      if (!strongRegex.test(value)) {
+        passwordError.textContent = "Password must be 8+ chars, include upper/lowercase, number & special char.";
+      } else {
+        passwordError.textContent = "";
+      }
+    });
+
+    // Confirm password validation
+    confirmPassword.addEventListener("input", () => {
+      if (confirmPassword.value !== password.value) {
+        confirmError.textContent = "Passwords do not match";
+      } else {
+        confirmError.textContent = "";
+      }
+    });
+
+    // Final form submission check
+    form.addEventListener("submit", (e) => {
+      if (emailError.textContent || passwordError.textContent || confirmError.textContent) {
+        e.preventDefault();
+        alert("Please fix errors before submitting.");
+      }
+    });
+  </script>
+</body>
+</html>
